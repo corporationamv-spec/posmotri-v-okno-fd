@@ -9,9 +9,14 @@ html {
 }
 
 .page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   inline-size: 1200px;
   block-size: 100%;
   margin: auto;
+  padding: 20px;
   color: #fff;
   font-family: 'Fira Sans Condensed', sans-serif;
   font-size: 18px;
@@ -48,4 +53,431 @@ ol {
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #D9D9D9;
+}
+
+/* ========================================= */
+/* ШАГ 1. Лейаут (общая структура) */
+/* ========================================= */
+
+/* Основной контейнер .content */
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end; /* Прижимаем к низу */
+  width: 1140px; /* По макету, с учётом padding */
+  gap: 30px;
+  padding: 30px;
+  background-color: #1b1919;
+}
+
+/* Левая часть: результат + форма */
+.result {
+  flex: 1; /* Занимает всё свободное пространство */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Правая часть: заголовок + список */
+.content__details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Контейнер списка карточек */
+.content__list-container {
+  width: 100%;
+  height: 534px; /* Жёсткая высота по макету */
+  overflow-y: auto;
+  padding-right: 4px; /* Отступ для скроллбара */
+  position: relative;
+}
+
+/* Список карточек */
+.content__list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Отступ между карточками */
+}
+
+/* Форма поиска */
+.search-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+}
+
+/* ========================================= */
+/* ШАГ 2. Уточнение размеров */
+/* ========================================= */
+
+/* Контейнер видео */
+.result__video-container {
+  width: 100%;
+  height: 386px; /* По макету */
+  margin-bottom: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Видео */
+.result__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Карточка видео */
+.content__video-card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 2px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+/* Изображение в карточке */
+.content__video-card-thumbnail {
+  width: 194px;
+  height: 103px;
+  min-width: 194px;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Контейнер с текстом карточки */
+.content__video-card-description-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 100%;
+}
+
+/* ========================================= */
+/* ШАГ 3. Стили текстов */
+/* ========================================= */
+
+/* Заголовки полей формы */
+.search-form__fieldset-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 5px;
+  font-family: 'Fira Sans Condensed', sans-serif;
+}
+
+/* Заголовок страницы */
+.title {
+  font-size: 75px;
+  font-weight: 700;
+  font-family: 'Oswald', sans-serif;
+  line-height: 0.9;
+  letter-spacing: 1px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+/* Акцентный текст в заголовке */
+.content__accent {
+  color: #545050;
+}
+
+/* Ссылка карточки */
+.content__card-link {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  width: 100%;
+  padding: 2px;
+  border-radius: 6px;
+}
+
+/* Заголовок карточки */
+.content__video-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Oswald', sans-serif;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Описание карточки */
+.content__video-card-description {
+  font-size: 18px;
+  font-weight: 400;
+  font-family: 'Fira Sans Condensed', sans-serif;
+  color: #fff;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ========================================= */
+/* ШАГ 4. Стилизуем формы и их состояния */
+/* ========================================= */
+
+/* Скрытый паттерн */
+.visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Список чекбоксов */
+.search-form__checkbox-list {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+/* Сброс границ fieldset */
+.search-form__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Обёртка label */
+.search-form__label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  cursor: pointer;
+}
+
+/* Текстовое поле */
+.search-form__textfield {
+  appearance: none;
+  border: none;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  font-family: 'Fira Sans Condensed', sans-serif;
+  font-size: 18px;
+  padding: 4px 0;
+  width: 225px;
+  outline: none;
+}
+
+/* Плейсхолдер */
+.search-form__textfield::placeholder {
+  color: rgb(255 255 255 / 0.7);
+}
+
+/* Фокус на поле (через :has) */
+.search-form__label:has(.search-form__textfield:focus-visible) {
+  outline: 1px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Псевдо-чекбокс */
+.search-form__pseudo-checkbox {
+  width: 19px;
+  height: 19px;
+  border: 1px solid #fff;
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+/* Внутренний квадрат чекбокса */
+.search-form__pseudo-checkbox::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* Активация чекбокса */
+.search-form__checkbox:checked + .search-form__pseudo-checkbox::after {
+  opacity: 1;
+}
+
+/* Подчёркивание текста чекбокса при наведении */
+.search-form__label:hover .search-form__label-text {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Фокус на чекбоксе */
+.search-form__label:has(.search-form__checkbox:focus-visible) {
+  outline: 1px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ========================================= */
+/* ШАГ 5. Стилизуем кнопки и их состояния */
+/* ========================================= */
+
+/* Общий класс кнопки */
+.button {
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  font-family: 'Fira Sans Condensed', sans-serif;
+  font-size: 18px;
+  padding: 6px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* Кнопка при наведении */
+.button:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Кнопка при нажатии */
+.button:active {
+  background: #545050;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Кнопка в фокусе */
+.button:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 2px;
+}
+
+.button:focus {
+  outline: none;
+}
+
+/* Кнопка "Найти" */
+.search-form__submit-button {
+  align-self: flex-end;
+  padding: 6px 30px;
+  margin-bottom: 2px;
+}
+
+/* Кнопка "Показать ещё" */
+.more-button {
+  width: 100%;
+  padding: 6px 0;
+}
+
+/* ========================================= */
+/* ШАГ 6. Состояния карточек */
+/* ========================================= */
+
+/* Текущая (выбранная) карточка */
+.content__card-link_current {
+  background: #545050;
+}
+
+/* Активное состояние (при удержании мыши) */
+.content__card-link:active {
+  background: #545050;
+}
+
+/* Наведение на карточку - подчёркивание заголовка */
+.content__card-link:hover .content__video-card-title {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Фокус на карточку */
+.content__card-link:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 2px;
+}
+
+.content__card-link:focus {
+  outline: none;
+}
+
+/* Отступ для обводки */
+.content__list-item {
+  padding: 0 2px;
+}
+
+/* ========================================= */
+/* ШАГ 7. Кликабельность */
+/* ========================================= */
+
+.button,
+.search-form__label,
+.content__card-link,
+.more-button {
+  cursor: pointer;
+}
+
+/* ========================================= */
+/* ШАГ 8. Позиционирование прелоадеров */
+/* ========================================= */
+
+/* Контейнеры для прелоадеров */
+.result__video-container,
+.content__list-container {
+  position: relative;
+}
+
+/* Прелоадер */
+.preloader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(27, 25, 25, 0.8);
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0;
+}
+
+/* Анимация прелоадера (из стартового файла preloader.css) */
+.preloader-chasing-squares {
+  display: flex;
+  gap: 6px;
+}
+
+.square {
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  animation: chasing-squares 1.2s infinite;
+}
+
+.square:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.square:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.square:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes chasing-squares {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
 }
