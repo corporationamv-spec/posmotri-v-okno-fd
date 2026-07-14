@@ -42,7 +42,7 @@ ol {
   list-style: none;
 }
 
-
+/* Кастомный скроллбар */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
@@ -54,6 +54,10 @@ ol {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #d9d9d9;
 }
+
+/* ========================================= */
+/* ШАГ 1. Лейаут (общая структура) */
+/* ========================================= */
 
 .content {
   display: flex;
@@ -108,6 +112,10 @@ ol {
   height: 54px;
 }
 
+/* ========================================= */
+/* ШАГ 2. Уточнение размеров */
+/* ========================================= */
+
 .result__video-container {
   width: 711px;
   height: 386px;
@@ -145,13 +153,16 @@ ol {
   align-items: flex-start;
   gap: 6px;
   width: 196px;
-  height: 103px;
-  flex-grow: 0;
+  /* Убрали фиксированную высоту — теперь подстраивается под текст */
 }
+
+/* ========================================= */
+/* ШАГ 3. Стили текстов */
+/* ========================================= */
 
 .search-form__fieldset-title {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 400; /* Исправлено: 400, а не 700 */
   color: #fff;
   margin-bottom: 5px;
   font-family: 'Fira Sans Condensed', sans-serif;
@@ -176,8 +187,8 @@ ol {
   color: #fff;
   display: block;
   width: 100%;
-  padding: 2px;
-  border-radius: 6px;
+  /* Убрали padding: 2px — картинка занимает всё пространство */
+  /* Убрали border-radius: 6px — в макете нет закруглений */
 }
 
 .content__video-card-title {
@@ -205,6 +216,10 @@ ol {
   display: -webkit-box;
   overflow: hidden;
 }
+
+/* ========================================= */
+/* ШАГ 4. Стилизуем формы и их состояния */
+/* ========================================= */
 
 .visually-hidden {
   position: absolute;
@@ -237,6 +252,7 @@ ol {
 }
 
 .search-form__textfield {
+  appearance: none; /* Добавлено по совету ревьюера */
   border: none;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
@@ -244,9 +260,10 @@ ol {
   color: #fff;
   font-family: 'Fira Sans Condensed', sans-serif;
   font-size: 18px;
-  padding: 4px 0;
+  padding: 0; /* Убрали padding, чтобы высота совпала с макетом */
   width: 225px;
   outline: none;
+  height: 27px; /* Задали точную высоту по макету */
 }
 
 .search-form__textfield::placeholder {
@@ -293,12 +310,17 @@ ol {
   outline-offset: 2px;
 }
 
+/* ========================================= */
+/* ШАГ 5. Стилизуем кнопки и их состояния */
+/* ========================================= */
+
 .button {
   border: 1px solid #fff;
   background: transparent;
   color: #fff;
   font-family: 'Fira Sans Condensed', sans-serif;
   font-size: 18px;
+  font-weight: 700; /* Добавлено: жирный шрифт */
   padding: 6px 0;
   cursor: pointer;
   transition: all 0.2s;
@@ -333,10 +355,20 @@ ol {
 }
 
 .more-button {
-  width: 100%;
+  margin-top: 30px; /* Отступ от последней карточки */
+  width: 100%; /* Ширина как у контейнера (не 390px, а 399px через flex) */
   height: 34px;
   padding: 0;
 }
+
+/* Убираем отступ у последней карточки, чтобы кнопка прилегала */
+.content__list .content__list-item:last-child {
+  margin-bottom: 0;
+}
+
+/* ========================================= */
+/* ШАГ 6. Состояния карточек */
+/* ========================================= */
 
 .content__card-link_current {
   background: #545050;
@@ -346,7 +378,9 @@ ol {
   background: #545050;
 }
 
-.content__card-link:hover .content__video-card-title {
+/* При наведении подчёркиваем и заголовок, и описание */
+.content__card-link:hover .content__video-card-title,
+.content__card-link:hover .content__video-card-description {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -364,6 +398,9 @@ ol {
   padding: 0 2px;
 }
 
+/* ========================================= */
+/* ШАГ 7. Кликабельность */
+/* ========================================= */
 
 .button,
 .search-form__label,
@@ -372,6 +409,9 @@ ol {
   cursor: pointer;
 }
 
+/* ========================================= */
+/* ШАГ 8. Позиционирование прелоадеров */
+/* ========================================= */
 
 .result__video-container,
 .content__list-container {
